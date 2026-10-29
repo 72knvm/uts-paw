@@ -1,12 +1,14 @@
 import { useEffect, useState } from 'react'
 import { KoleksiContext } from './koleksiContext.js'
+import useLocalStorage from '../hooks/useLocalStorage.js'
 
 export function KoleksiProvider({ children }) {
-  const [items, setItems] = useState([])
-  const [loading, setLoading] = useState(true)
+  const [items, setItems] = useLocalStorage('uts-paw-koleksi', null)
+  const [loading, setLoading] = useState(!Array.isArray(items))
   const [error, setError] = useState(null)
 
   useEffect(() => {
+    if (Array.isArray(items)) return
     let aktif = true
 
     async function muat() {
@@ -15,6 +17,7 @@ export function KoleksiProvider({ children }) {
         if (!res.ok) throw new Error(`Gagal memuat data (status ${res.status})`)
 
         const data = await res.json()
+        if (!Array.isArray(data)) throw new Error('Data koleksi harus berupa daftar destinasi.')
         if (aktif) setItems(data)
       } catch (err) {
         if (aktif) setError(err.message)
@@ -28,10 +31,10 @@ export function KoleksiProvider({ children }) {
     return () => {
       aktif = false
     }
-  }, [])
+  }, [items, setItems])
 
   return (
-    <KoleksiContext.Provider value={{ items, loading, error }}>
+    <KoleksiContext.Provider value={{ items: Array.isArray(items) ? items : [], loading, error }}>
       {children}
     </KoleksiContext.Provider>
   )
