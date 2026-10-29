@@ -1,4 +1,5 @@
 import { render, screen, waitFor } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 import { MemoryRouter } from 'react-router-dom'
 import { afterEach, beforeEach, expect, test, vi } from 'vitest'
 import App from './App.jsx'
@@ -108,4 +109,44 @@ test('menampilkan error jika respons server bukan daftar destinasi', async () =>
   expect(await screen.findByRole('alert')).toHaveTextContent('Data koleksi harus berupa daftar destinasi.')
   expect(localStorage.getItem('uts-paw-koleksi')).toBeNull()
   expect(fetch).toHaveBeenCalledTimes(1)
+})
+
+test('mencari berdasarkan judul tanpa membedakan huruf besar dan spasi tepi', async () => {
+  const user = userEvent.setup()
+  bukaKoleksi()
+  await screen.findByRole('heading', { name: data[0].judul })
+
+  await user.type(screen.getByRole('searchbox', { name: 'Cari judul' }), ' kLaRa ')
+
+  expect(screen.getByRole('heading', { name: 'Pantai Klara' })).toBeInTheDocument()
+  expect(screen.queryByRole('heading', { name: data[0].judul })).not.toBeInTheDocument()
+  expect(screen.getAllByRole('listitem')).toHaveLength(1)
+  expect(JSON.parse(localStorage.getItem('uts-paw-koleksi'))).toEqual(data)
+  expect(fetch).toHaveBeenCalledTimes(1)
+})
+
+test('menampilkan pesan ketika tidak ada judul yang cocok', async () => {
+  const user = userEvent.setup()
+  bukaKoleksi()
+  await screen.findByRole('heading', { name: data[0].judul })
+
+  await user.type(screen.getByRole('searchbox', { name: 'Cari judul' }), 'destinasi tidak terdaftar')
+
+  expect(screen.getByText('Tidak ada destinasi yang cocok.')).toBeInTheDocument()
+  expect(screen.queryAllByRole('listitem')).toHaveLength(0)
+})
+
+test('menampilkan semua destinasi lagi setelah pencarian dikosongkan', async () => {
+  const user = userEvent.setup()
+  bukaKoleksi()
+  await screen.findByRole('heading', { name: data[0].judul })
+  const input = screen.getByRole('searchbox', { name: 'Cari judul' })
+
+  await user.type(input, 'Klara')
+  expect(screen.getAllByRole('listitem')).toHaveLength(1)
+
+  await user.clear(input)
+
+  expect(screen.getAllByRole('listitem')).toHaveLength(data.length)
+  expect(screen.queryByText('Tidak ada destinasi yang cocok.')).not.toBeInTheDocument()
 })
