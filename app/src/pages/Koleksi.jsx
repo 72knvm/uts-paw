@@ -2,12 +2,19 @@ import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import useKoleksi from '../hooks/useKoleksi.js'
 import KotakPencarian from '../components/KotakPencarian.jsx'
+import FilterKategori from '../components/FilterKategori.jsx'
 
 export default function Koleksi() {
   const { items, loading, error } = useKoleksi()
   const [cari, setCari] = useState('')
+  const [kategori, setKategori] = useState('Semua')
   const kataCari = cari.trim().toLowerCase()
-  const tampil = items.filter((item) => item.judul.toLowerCase().includes(kataCari))
+  const daftarKategori = ['Semua', ...new Set(items.map((item) => item.kategori))]
+  const tampil = items.filter(
+    (item) =>
+      item.judul.toLowerCase().includes(kataCari) &&
+      (kategori === 'Semua' || item.kategori === kategori),
+  )
 
   return (
     <main>
@@ -18,7 +25,10 @@ export default function Koleksi() {
         <p role="alert">Gagal memuat: {error}</p>
       ) : (
         <>
-          <KotakPencarian nilai={cari} onUbah={setCari} />
+          <div className="alat-koleksi">
+            <KotakPencarian nilai={cari} onUbah={setCari} />
+            <FilterKategori daftarKategori={daftarKategori} nilai={kategori} onUbah={setKategori} />
+          </div>
           {tampil.length === 0 ? (
             <p>Tidak ada destinasi yang cocok.</p>
           ) : (
