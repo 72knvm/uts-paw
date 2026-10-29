@@ -1,10 +1,83 @@
+
 [
   {
     "id": "1",
-    "judul": "Contoh item pertama",
-    "kategori": "Contoh",
-    "fieldTema1": "ganti sesuai field tema",
-    "fieldTema2": 0,
-    "fieldTema3": "ganti sesuai field tema"
+    "judul": "Pantai Mutun",
+    "kategori": "Pantai",
+    "kabupaten": "Pesawaran",
+    "hargaTiket": 25000,
+    "jamBuka": "08.00-17.00"
+  },
+  {
+    "id": "2",
+    "judul": "Pulau Pahawang",
+    "kategori": "Pulau",
+    "kabupaten": "Pesawaran",
+    "hargaTiket": 50000,
+    "jamBuka": "07.00-17.00"
+  },
+  {
+    "id": "3",
+    "judul": "Pantai Sari Ringgung",
+    "kategori": "Pantai",
+    "kabupaten": "Pesawaran",
+    "hargaTiket": 25000,
+    "jamBuka": "08.00-17.00"
+  },
+  {
+    "id": "4",
+    "judul": "Teluk Kiluan",
+    "kategori": "Wisata Alam",
+    "kabupaten": "Tanggamus",
+    "hargaTiket": 20000,
+    "jamBuka": "06.00-18.00"
+  },
+  {
+    "id": "5",
+    "judul": "Taman Nasional Way Kambas",
+    "kategori": "Wisata Alam",
+    "kabupaten": "Lampung Timur",
+    "hargaTiket": 20000,
+    "jamBuka": "08.00-16.00"
+  },
+  {
+    "id": "6",
+    "judul": "Menara Siger",
+    "kategori": "Budaya",
+    "kabupaten": "Lampung Selatan",
+    "hargaTiket": 10000,
+    "jamBuka": "08.00-17.00"
+  },
+  {
+    "id": "7",
+    "judul": "Pantai Gigi Hiu",
+    "kategori": "Pantai",
+    "kabupaten": "Tanggamus",
+    "hargaTiket": 15000,
+    "jamBuka": "06.00-18.00"
+  },
+  {
+    "id": "8",
+    "judul": "Pulau Tegal Mas",
+    "kategori": "Pulau",
+    "kabupaten": "Pesawaran",
+    "hargaTiket": 30000,
+    "jamBuka": "08.00-17.00"
+  },
+  {
+    "id": "9",
+    "judul": "Pantai Klara",
+    "kategori": "Pantai",
+    "kabupaten": "Pesawaran",
+    "hargaTiket": 15000,
+    "jamBuka": "08.00-18.00"
+  },
+  {
+    "id": "10",
+    "judul": "Air Terjun Curup Gangsa",
+    "kategori": "Air Terjun",
+    "kabupaten": "Way Kanan",
+    "hargaTiket": 10000,
+    "jamBuka": "08.00-17.00"
   }
 ]
