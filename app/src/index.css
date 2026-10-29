@@ -28,3 +28,41 @@ main {
   align-items: center;
   gap: 0.5rem;
 }
+
+.daftar-kartu {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+  margin: 0 0 1.5rem;
+  padding: 0;
+  list-style: none;
+}
+
+.kartu {
+  padding: 1rem;
+  border: 1px solid #dcdcdc;
+  border-radius: 8px;
+  background: #fff;
+}
+
+.kartu h2 {
+  margin: 0 0 0.5rem;
+  font-size: 1.125rem;
+}
+
+.kartu p {
+  margin: 0;
+  color: #57606a;
+}
+
+@media (max-width: 768px) {
+  .daftar-kartu {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 480px) {
+  .daftar-kartu {
+    grid-template-columns: 1fr;
+  }
+}

@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import useKoleksi from '../hooks/useKoleksi.js'
 import KotakPencarian from '../components/KotakPencarian.jsx'
 import FilterKategori from '../components/FilterKategori.jsx'
+import KartuItem from '../components/KartuItem.jsx'
 
 export default function Koleksi() {
   const { items, loading, error } = useKoleksi()
@@ -32,12 +33,9 @@ export default function Koleksi() {
           {tampil.length === 0 ? (
             <p>Tidak ada destinasi yang cocok.</p>
           ) : (
-            <ul>
+            <ul className="daftar-kartu">
               {tampil.map((item) => (
-                <li key={item.id}>
-                  <h2>{item.judul}</h2>
-                  <p>{item.kategori} · {item.kabupaten}</p>
-                </li>
+                <KartuItem key={item.id} item={item} />
               ))}
             </ul>
           )}
