@@ -1,6 +1,7 @@
 import { Link, Route, Routes } from 'react-router-dom'
 import mahasiswa from '../mahasiswa.json'
 import { KoleksiProvider } from './context/KoleksiProvider.jsx'
+import Layout from './components/Layout.jsx'
 import Koleksi from './pages/Koleksi.jsx'
 import Detail from './pages/Detail.jsx'
 import Tambah from './pages/Tambah.jsx'
@@ -33,14 +34,16 @@ function TidakDitemukan() {
 export default function App() {
   return (
     <KoleksiProvider>
-      <Routes>
-        <Route path="/" element={<Beranda />} />
-        <Route path="/koleksi" element={<Koleksi />} />
-        <Route path="/koleksi/:id" element={<Detail />} />
-        <Route path="/tambah" element={<Tambah />} />
-        <Route path="/statistik" element={<Statistik />} />
-        <Route path="*" element={<TidakDitemukan />} />
-      </Routes>
+      <Layout>
+        <Routes>
+          <Route path="/" element={<Beranda />} />
+          <Route path="/koleksi" element={<Koleksi />} />
+          <Route path="/koleksi/:id" element={<Detail />} />
+          <Route path="/tambah" element={<Tambah />} />
+          <Route path="/statistik" element={<Statistik />} />
+          <Route path="*" element={<TidakDitemukan />} />
+        </Routes>
+      </Layout>
     </KoleksiProvider>
   )
 }
