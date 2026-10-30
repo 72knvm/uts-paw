@@ -29,6 +29,7 @@ export default function Koleksi() {
           <div className="alat-koleksi">
             <KotakPencarian nilai={cari} onUbah={setCari} />
             <FilterKategori daftarKategori={daftarKategori} nilai={kategori} onUbah={setKategori} />
+            <Link to="/tambah">Tambah destinasi</Link>
           </div>
           {tampil.length === 0 ? (
             <p>Tidak ada destinasi yang cocok.</p>

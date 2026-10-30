@@ -3,6 +3,7 @@ import mahasiswa from '../mahasiswa.json'
 import { KoleksiProvider } from './context/KoleksiProvider.jsx'
 import Koleksi from './pages/Koleksi.jsx'
 import Detail from './pages/Detail.jsx'
+import Tambah from './pages/Tambah.jsx'
 
 // Rute wajib: /, /koleksi, /koleksi/:id, /tambah, /statistik, /tentang, dan *.
 
@@ -34,6 +35,7 @@ export default function App() {
         <Route path="/" element={<Beranda />} />
         <Route path="/koleksi" element={<Koleksi />} />
         <Route path="/koleksi/:id" element={<Detail />} />
+        <Route path="/tambah" element={<Tambah />} />
         <Route path="*" element={<TidakDitemukan />} />
       </Routes>
     </KoleksiProvider>
