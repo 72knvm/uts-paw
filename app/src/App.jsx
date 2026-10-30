@@ -1,6 +1,7 @@
 import { Link, Route, Routes } from 'react-router-dom'
 import mahasiswa from '../mahasiswa.json'
 import { KoleksiProvider } from './context/KoleksiProvider.jsx'
+import useKoleksi from './hooks/useKoleksi.js'
 import Layout from './components/Layout.jsx'
 import Koleksi from './pages/Koleksi.jsx'
 import Detail from './pages/Detail.jsx'
@@ -11,12 +12,23 @@ import Tentang from './pages/Tentang.jsx'
 // Rute wajib: /, /koleksi, /koleksi/:id, /tambah, /statistik, /tentang, dan *.
 
 function Beranda() {
+  const { items, loading, error } = useKoleksi()
+  const jumlahKategori = new Set(items.map((item) => item.kategori)).size
+
   return (
     <main>
-      <h1>Ujian Tengah Semester Pengembangan Aplikasi Web</h1>
+      <h1>{mahasiswa.tema}</h1>
+      <p>Koleksi destinasi wisata di Lampung.</p>
       <p>
         {mahasiswa.nama || 'Marvin Karyanda'} ({mahasiswa.nim || '123140185'})
       </p>
+      {loading ? (
+        <p>Memuat ringkasan...</p>
+      ) : error ? (
+        <p role="alert">Gagal memuat: {error}</p>
+      ) : (
+        <p>Ada {items.length} destinasi dalam {jumlahKategori} kategori.</p>
+      )}
       <Link to="/koleksi">Lihat destinasi wisata</Link>
       <p><Link to="/statistik">Lihat statistik</Link></p>
     </main>
@@ -28,6 +40,7 @@ function TidakDitemukan() {
     <main>
       <h1>404</h1>
       <p>Halaman tidak ditemukan.</p>
+      <Link to="/">Kembali ke beranda</Link>
     </main>
   )
 }
