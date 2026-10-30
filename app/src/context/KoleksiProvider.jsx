@@ -17,7 +17,7 @@ export function KoleksiProvider({ children }) {
         if (!res.ok) throw new Error(`Gagal memuat data (status ${res.status})`)
 
         const data = await res.json()
-        if (!Array.isArray(data)) throw new Error('Data koleksi harus berupa daftar destinasi.')
+        if (!Array.isArray(data)) throw new Error('Format data wisata tidak sesuai.')
         if (aktif) setItems(data)
       } catch (err) {
         if (aktif) setError(err.message)

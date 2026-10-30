@@ -21,7 +21,7 @@ function bukaKoleksi() {
   )
 }
 
-test('menampilkan loading lalu semua destinasi dari fetch dan menyimpannya', async () => {
+test('memuat dan menyimpan data wisata', async () => {
   const tampilan = bukaKoleksi()
   expect(screen.getByText('Memuat data...')).toBeInTheDocument()
 
@@ -43,7 +43,7 @@ test('menampilkan loading lalu semua destinasi dari fetch dan menyimpannya', asy
   expect(fetch).not.toHaveBeenCalled()
 })
 
-test('menampilkan pesan error ketika server gagal mengirim data', async () => {
+test('menampilkan error saat server gagal', async () => {
   fetch.mockResolvedValueOnce(new Response('Server error', { status: 500 }))
   bukaKoleksi()
 
@@ -52,7 +52,7 @@ test('menampilkan pesan error ketika server gagal mengirim data', async () => {
   expect(localStorage.getItem('uts-paw-koleksi')).toBeNull()
 })
 
-test('menampilkan pesan error ketika koneksi gagal', async () => {
+test('menampilkan error saat koneksi putus', async () => {
   fetch.mockRejectedValueOnce(new Error('Koneksi terputus'))
   bukaKoleksi()
 
@@ -61,7 +61,7 @@ test('menampilkan pesan error ketika koneksi gagal', async () => {
   expect(localStorage.getItem('uts-paw-koleksi')).toBeNull()
 })
 
-test('menggunakan koleksi tersimpan tanpa menimpanya dengan data awal', () => {
+test('memakai data wisata yang sudah tersimpan', () => {
   const tersimpan = [{ ...data[0], judul: 'Destinasi tersimpan' }]
   localStorage.setItem('uts-paw-koleksi', JSON.stringify(tersimpan))
   bukaKoleksi()
@@ -72,7 +72,7 @@ test('menggunakan koleksi tersimpan tanpa menimpanya dengan data awal', () => {
   expect(fetch).not.toHaveBeenCalled()
 })
 
-test('mempertahankan koleksi kosong tanpa mengambil data awal lagi', () => {
+test('koleksi kosong tidak diisi ulang', () => {
   localStorage.setItem('uts-paw-koleksi', JSON.stringify([]))
   bukaKoleksi()
 
@@ -82,7 +82,7 @@ test('mempertahankan koleksi kosong tanpa mengambil data awal lagi', () => {
   expect(fetch).not.toHaveBeenCalled()
 })
 
-test('memuat data awal ketika JSON tersimpan rusak', async () => {
+test('memuat ulang data jika JSON tersimpan rusak', async () => {
   localStorage.setItem('uts-paw-koleksi', 'bukan JSON')
   bukaKoleksi()
 
@@ -92,7 +92,7 @@ test('memuat data awal ketika JSON tersimpan rusak', async () => {
   })
 })
 
-test('memuat data awal ketika koleksi tersimpan bukan array', async () => {
+test('memuat ulang data jika simpanan bukan array', async () => {
   localStorage.setItem('uts-paw-koleksi', JSON.stringify({ judul: 'Data lama' }))
   bukaKoleksi()
 
@@ -102,16 +102,16 @@ test('memuat data awal ketika koleksi tersimpan bukan array', async () => {
   })
 })
 
-test('menampilkan error jika respons server bukan daftar destinasi', async () => {
+test('menampilkan error jika format data salah', async () => {
   fetch.mockResolvedValueOnce(new Response(JSON.stringify({ pesan: 'Data tidak tersedia' })))
   bukaKoleksi()
 
-  expect(await screen.findByRole('alert')).toHaveTextContent('Data koleksi harus berupa daftar destinasi.')
+  expect(await screen.findByRole('alert')).toHaveTextContent('Format data wisata tidak sesuai.')
   expect(localStorage.getItem('uts-paw-koleksi')).toBeNull()
   expect(fetch).toHaveBeenCalledTimes(1)
 })
 
-test('mencari berdasarkan judul tanpa membedakan huruf besar dan spasi tepi', async () => {
+test('pencarian mengabaikan huruf besar dan spasi tepi', async () => {
   const user = userEvent.setup()
   bukaKoleksi()
   await screen.findByRole('heading', { name: data[0].judul })
@@ -125,7 +125,7 @@ test('mencari berdasarkan judul tanpa membedakan huruf besar dan spasi tepi', as
   expect(fetch).toHaveBeenCalledTimes(1)
 })
 
-test('menampilkan pesan ketika tidak ada judul yang cocok', async () => {
+test('menampilkan pesan jika pencarian tidak cocok', async () => {
   const user = userEvent.setup()
   bukaKoleksi()
   await screen.findByRole('heading', { name: data[0].judul })
@@ -136,7 +136,7 @@ test('menampilkan pesan ketika tidak ada judul yang cocok', async () => {
   expect(screen.queryAllByRole('listitem')).toHaveLength(0)
 })
 
-test('menampilkan semua destinasi lagi setelah pencarian dikosongkan', async () => {
+test('menampilkan semua wisata saat pencarian dihapus', async () => {
   const user = userEvent.setup()
   bukaKoleksi()
   await screen.findByRole('heading', { name: data[0].judul })
