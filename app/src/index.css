@@ -9,6 +9,38 @@ body {
   margin: 0;
 }
 
+a {
+  color: #245e49;
+  text-underline-offset: 3px;
+}
+
+input,
+select,
+button {
+  box-sizing: border-box;
+  padding: 0.5rem 0.625rem;
+  font: inherit;
+  border: 1px solid #b8c7bf;
+  border-radius: 4px;
+}
+
+input:focus,
+select:focus,
+button:focus,
+a:focus {
+  outline: 2px solid #245e49;
+  outline-offset: 3px;
+}
+
+button {
+  background: #fff;
+  cursor: pointer;
+}
+
+button:hover {
+  background: #e8f2ec;
+}
+
 .kerangka {
   display: flex;
   flex-direction: column;
@@ -17,7 +49,7 @@ body {
 
 .kepala {
   background: #fff;
-  border-bottom: 1px solid #dcdcdc;
+  border-bottom: 3px solid #245e49;
 }
 
 .isi-kepala {
@@ -30,6 +62,16 @@ body {
   max-width: 960px;
   margin: 0 auto;
   padding: 1rem;
+}
+
+.isi-kepala strong::before {
+  content: '';
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  margin-right: 0.5rem;
+  border-radius: 50%;
+  background: #245e49;
 }
 
 .menu {
@@ -46,8 +88,13 @@ body {
 }
 
 .menu a.active {
-  background: #e7eef8;
+  background: #e4f1e9;
+  color: #1c513c;
   font-weight: 600;
+}
+
+.menu a:hover {
+  background: #e4f1e9;
 }
 
 .kaki {
@@ -94,9 +141,15 @@ main {
 
 .kartu {
   padding: 1rem;
-  border: 1px solid #dcdcdc;
+  border: 1px solid #d5e0da;
+  border-left: 4px solid #245e49;
   border-radius: 8px;
   background: #fff;
+}
+
+.kartu:hover {
+  border-color: #245e49;
+  background: #f7fbf8;
 }
 
 .kartu h2 {
@@ -132,12 +185,66 @@ main {
 
 .form-item button {
   margin-top: 0.5rem;
-  cursor: pointer;
+  border-color: #245e49;
+  background: #245e49;
+  color: #fff;
+}
+
+.form-item button:hover {
+  background: #194634;
+}
+
+#judul {
+  font-weight: 600;
+}
+
+#hargaTiket {
+  max-width: 200px;
+}
+
+#jamBuka {
+  max-width: 240px;
 }
 
 .form-item [role='alert'] {
   margin: 0;
   color: #b42318;
+}
+
+table {
+  width: 100%;
+  max-width: 480px;
+  margin-bottom: 1rem;
+  border-collapse: collapse;
+}
+
+th,
+td {
+  padding: 0.625rem 0.75rem;
+  border-bottom: 1px solid #d5e0da;
+  text-align: left;
+}
+
+th:last-child,
+td {
+  text-align: right;
+}
+
+thead,
+tfoot {
+  background: #e4f1e9;
+}
+
+tfoot {
+  font-weight: 600;
+}
+
+dt {
+  font-weight: 600;
+}
+
+dd {
+  margin: 0.25rem 0 1rem;
 }
 
 @media (max-width: 768px) {
