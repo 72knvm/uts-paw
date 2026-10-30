@@ -55,6 +55,37 @@ main {
   color: #57606a;
 }
 
+.form-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  max-width: 480px;
+  margin-bottom: 1.5rem;
+}
+
+.form-item label {
+  font-weight: 600;
+}
+
+.form-item input,
+.form-item select,
+.form-item button {
+  padding: 0.625rem;
+  font: inherit;
+  border: 1px solid #b8bec5;
+  border-radius: 4px;
+}
+
+.form-item button {
+  margin-top: 0.5rem;
+  cursor: pointer;
+}
+
+.form-item [role='alert'] {
+  margin: 0;
+  color: #b42318;
+}
+
 @media (max-width: 768px) {
   .daftar-kartu {
     grid-template-columns: repeat(2, 1fr);

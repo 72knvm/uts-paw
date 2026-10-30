@@ -33,8 +33,13 @@ export function KoleksiProvider({ children }) {
     }
   }, [items, setItems])
 
+  function tambah(item) {
+    const itemBaru = { ...item, id: crypto.randomUUID() }
+    setItems((lama) => [...(lama ?? []), itemBaru])
+  }
+
   return (
-    <KoleksiContext.Provider value={{ items: Array.isArray(items) ? items : [], loading, error }}>
+    <KoleksiContext.Provider value={{ items: Array.isArray(items) ? items : [], loading, error, tambah }}>
       {children}
     </KoleksiContext.Provider>
   )
