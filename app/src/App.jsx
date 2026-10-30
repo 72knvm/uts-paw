@@ -2,6 +2,7 @@ import { Link, Route, Routes } from 'react-router-dom'
 import mahasiswa from '../mahasiswa.json'
 import { KoleksiProvider } from './context/KoleksiProvider.jsx'
 import Koleksi from './pages/Koleksi.jsx'
+import Detail from './pages/Detail.jsx'
 
 // Rute wajib: /, /koleksi, /koleksi/:id, /tambah, /statistik, /tentang, dan *.
 
@@ -32,6 +33,7 @@ export default function App() {
       <Routes>
         <Route path="/" element={<Beranda />} />
         <Route path="/koleksi" element={<Koleksi />} />
+        <Route path="/koleksi/:id" element={<Detail />} />
         <Route path="*" element={<TidakDitemukan />} />
       </Routes>
     </KoleksiProvider>
