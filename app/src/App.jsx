@@ -6,6 +6,7 @@ import Koleksi from './pages/Koleksi.jsx'
 import Detail from './pages/Detail.jsx'
 import Tambah from './pages/Tambah.jsx'
 import Statistik from './pages/Statistik.jsx'
+import Tentang from './pages/Tentang.jsx'
 
 // Rute wajib: /, /koleksi, /koleksi/:id, /tambah, /statistik, /tentang, dan *.
 
@@ -41,6 +42,7 @@ export default function App() {
           <Route path="/koleksi/:id" element={<Detail />} />
           <Route path="/tambah" element={<Tambah />} />
           <Route path="/statistik" element={<Statistik />} />
+          <Route path="/tentang" element={<Tentang />} />
           <Route path="*" element={<TidakDitemukan />} />
         </Routes>
       </Layout>

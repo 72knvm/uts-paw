@@ -5,6 +5,7 @@ const menu = [
   { ke: '/koleksi', label: 'Koleksi' },
   { ke: '/tambah', label: 'Tambah' },
   { ke: '/statistik', label: 'Statistik' },
+  { ke: '/tentang', label: 'Tentang' },
 ]
 
 export default function Layout({ children }) {
