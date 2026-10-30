@@ -20,6 +20,7 @@ export default function Koleksi() {
   return (
     <main>
       <h1>Koleksi Destinasi Wisata Lampung</h1>
+      <p className="pengantar-koleksi">Cari destinasi berdasarkan judul atau pilih kategorinya.</p>
       {loading ? (
         <p>Memuat data...</p>
       ) : error ? (
@@ -29,7 +30,7 @@ export default function Koleksi() {
           <div className="alat-koleksi">
             <KotakPencarian nilai={cari} onUbah={setCari} />
             <FilterKategori daftarKategori={daftarKategori} nilai={kategori} onUbah={setKategori} />
-            <Link to="/tambah">Tambah destinasi</Link>
+            <Link className="tombol" to="/tambah">Tambah destinasi</Link>
           </div>
           {tampil.length === 0 ? (
             <p>Tidak ada destinasi yang cocok.</p>

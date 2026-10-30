@@ -16,21 +16,26 @@ function Beranda() {
   const jumlahKategori = new Set(items.map((item) => item.kategori)).size
 
   return (
-    <main>
-      <h1>{mahasiswa.tema}</h1>
-      <p>Koleksi destinasi wisata di Lampung.</p>
-      <p>
-        {mahasiswa.nama || 'Marvin Karyanda'} ({mahasiswa.nim || '123140185'})
-      </p>
-      {loading ? (
-        <p>Memuat ringkasan...</p>
-      ) : error ? (
-        <p role="alert">Gagal memuat: {error}</p>
-      ) : (
-        <p>Ada {items.length} destinasi dalam {jumlahKategori} kategori.</p>
-      )}
-      <Link to="/koleksi">Lihat destinasi wisata</Link>
-      <p><Link to="/statistik">Lihat statistik</Link></p>
+    <main className="beranda">
+      <section className="pengantar">
+        <h1>{mahasiswa.tema}</h1>
+        <p>Koleksi destinasi wisata di Lampung.</p>
+        <p className="identitas">
+          {mahasiswa.nama || 'Marvin Karyanda'} ({mahasiswa.nim || '123140185'})
+        </p>
+        <Link className="tombol" to="/koleksi">Lihat destinasi wisata</Link>
+      </section>
+      <section className="ringkasan-beranda" aria-label="Ringkasan koleksi">
+        <h2>Ringkasan koleksi</h2>
+        {loading ? (
+          <p>Memuat ringkasan...</p>
+        ) : error ? (
+          <p role="alert">Gagal memuat: {error}</p>
+        ) : (
+          <p className="jumlah-koleksi">Ada {items.length} destinasi dalam {jumlahKategori} kategori.</p>
+        )}
+        <Link to="/statistik">Lihat statistik</Link>
+      </section>
     </main>
   )
 }
