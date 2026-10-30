@@ -38,8 +38,12 @@ export function KoleksiProvider({ children }) {
     setItems((lama) => [...(lama ?? []), itemBaru])
   }
 
+  function hapus(id) {
+    setItems((lama) => (lama ?? []).filter((item) => String(item.id) !== String(id)))
+  }
+
   return (
-    <KoleksiContext.Provider value={{ items: Array.isArray(items) ? items : [], loading, error, tambah }}>
+    <KoleksiContext.Provider value={{ items: Array.isArray(items) ? items : [], loading, error, tambah, hapus }}>
       {children}
     </KoleksiContext.Provider>
   )

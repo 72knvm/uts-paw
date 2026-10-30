@@ -28,11 +28,12 @@ beforeEach(() => {
 })
 
 afterEach(() => {
+  vi.restoreAllMocks()
   vi.unstubAllGlobals()
 })
 
 function buka(path) {
-  render(
+  return render(
     <MemoryRouter initialEntries={[path]}>
       <App />
     </MemoryRouter>,
@@ -70,6 +71,7 @@ test('id yang tidak ada menampilkan pesan', async () => {
 
   expect(await screen.findByRole('heading', { name: 'Destinasi tidak ditemukan' })).toBeInTheDocument()
   expect(screen.queryByText(/404/)).not.toBeInTheDocument()
+  expect(screen.queryByRole('button', { name: 'Hapus' })).not.toBeInTheDocument()
   expect(screen.getByRole('link', { name: 'Kembali ke koleksi' })).toHaveAttribute('href', '/koleksi')
 })
 
@@ -91,4 +93,50 @@ test('kembali dari detail ke koleksi', async () => {
   expect(screen.getByRole('searchbox', { name: 'Cari judul' })).toBeInTheDocument()
   expect(screen.getAllByRole('listitem')).toHaveLength(data.length)
   expect(fetch).toHaveBeenCalledTimes(1)
+})
+
+test('batal hapus membuat data tetap ada', async () => {
+  const user = userEvent.setup()
+  const konfirmasi = vi.spyOn(window, 'confirm').mockReturnValue(false)
+  buka(`/koleksi/${data[0].id}`)
+  await user.click(await screen.findByRole('button', { name: 'Hapus' }))
+
+  expect(konfirmasi).toHaveBeenCalledWith(`Hapus ${data[0].judul}?`)
+  expect(screen.getByRole('heading', { level: 1, name: data[0].judul })).toBeInTheDocument()
+  expect(JSON.parse(localStorage.getItem('uts-paw-koleksi'))).toEqual(data)
+})
+
+test('hapus wisata lalu kembali ke koleksi dan datanya tetap terhapus', async () => {
+  const user = userEvent.setup()
+  const konfirmasi = vi.spyOn(window, 'confirm').mockReturnValue(true)
+  const halaman = buka(`/koleksi/${data[0].id}`)
+  await user.click(await screen.findByRole('button', { name: 'Hapus' }))
+
+  expect(konfirmasi).toHaveBeenCalledTimes(1)
+  expect(screen.getByRole('heading', { level: 1, name: 'Koleksi Destinasi Wisata Lampung' })).toBeInTheDocument()
+  expect(screen.queryByRole('link', { name: data[0].judul })).not.toBeInTheDocument()
+  expect(screen.getByRole('link', { name: data[1].judul })).toBeInTheDocument()
+  expect(JSON.parse(localStorage.getItem('uts-paw-koleksi'))).toEqual([data[1]])
+
+  halaman.unmount()
+  buka(`/koleksi/${data[0].id}`)
+  expect(await screen.findByRole('heading', { name: 'Destinasi tidak ditemukan' })).toBeInTheDocument()
+  expect(screen.queryByRole('button', { name: 'Hapus' })).not.toBeInTheDocument()
+  expect(fetch).toHaveBeenCalledTimes(1)
+})
+
+test('menghapus wisata terakhir tidak memuat ulang data awal', async () => {
+  const user = userEvent.setup()
+  vi.spyOn(window, 'confirm').mockReturnValue(true)
+  localStorage.setItem('uts-paw-koleksi', JSON.stringify([data[0]]))
+  const halaman = buka(`/koleksi/${data[0].id}`)
+  await user.click(screen.getByRole('button', { name: 'Hapus' }))
+
+  expect(screen.getByText('Tidak ada destinasi yang cocok.')).toBeInTheDocument()
+  expect(JSON.parse(localStorage.getItem('uts-paw-koleksi'))).toEqual([])
+
+  halaman.unmount()
+  buka('/koleksi')
+  expect(screen.getByText('Tidak ada destinasi yang cocok.')).toBeInTheDocument()
+  expect(fetch).not.toHaveBeenCalled()
 })

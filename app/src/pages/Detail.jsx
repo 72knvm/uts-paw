@@ -1,10 +1,18 @@
-import { Link, useParams } from 'react-router-dom'
+import { Link, useNavigate, useParams } from 'react-router-dom'
 import useKoleksi from '../hooks/useKoleksi.js'
 
 export default function Detail() {
   const { id } = useParams()
-  const { items, loading, error } = useKoleksi()
+  const { items, loading, error, hapus } = useKoleksi()
+  const navigate = useNavigate()
   const item = items.find((item) => String(item.id) === id)
+
+  function hapusItem() {
+    if (window.confirm(`Hapus ${item.judul}?`)) {
+      hapus(item.id)
+      navigate('/koleksi')
+    }
+  }
 
   if (loading) {
     return <main><p>Memuat detail...</p></main>
@@ -36,6 +44,9 @@ export default function Detail() {
             <dt>Jam Buka</dt>
             <dd>{item.jamBuka}</dd>
           </dl>
+          <p>
+            <button type="button" onClick={hapusItem}>Hapus</button>
+          </p>
         </>
       ) : (
         <h1>Destinasi tidak ditemukan</h1>
